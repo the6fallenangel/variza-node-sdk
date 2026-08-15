@@ -1,0 +1,43 @@
+{
+    "name": "@the6fallenangel/variza-node-sdk",
+    "version": "0.1.0",
+    "description": "Node.js SDK for the Variza payment gateway — create payment links and verify webhooks.",
+    "type": "module",
+    "license": "MIT",
+    "keywords": [
+        "variza",
+        "payment",
+        "card-to-card",
+        "payment-link",
+        "webhook",
+        "sdk"
+    ],
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
+    },
+    "files": [
+        "dist",
+        "docs/logo.webp"
+    ],
+    "sideEffects": false,
+    "engines": {
+        "node": ">=18"
+    },
+    "scripts": {
+        "build": "tsup src/index.ts --format esm,cjs --dts --clean --sourcemap",
+        "typecheck": "tsc --noEmit",
+        "test": "npm run typecheck && node --test tests/"
+    },
+    "devDependencies": {
+        "@types/node": "^24.0.0",
+        "tsup": "^8.0.0",
+        "typescript": "^5.5.0"
+    }
+}
