@@ -33,7 +33,7 @@
     "scripts": {
         "build": "tsup src/index.ts --format esm,cjs --dts --clean --sourcemap",
         "typecheck": "tsc --noEmit",
-        "test": "npm run typecheck && node --import tsx --test \"tests/*.test.ts\""
+        "test": "npm run typecheck && node --import tsx --test tests/*.test.ts"
     },
     "devDependencies": {
         "@types/node": "^24.0.0",
