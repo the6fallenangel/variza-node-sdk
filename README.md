@@ -65,6 +65,7 @@ const link = await client.pay({
   title: "Order #123", // optional
   cardLast4: "1234", // optional — pick a specific card
   expiresIn: Expiry.OneHour, // optional — link validity period
+  memberPhone: "09123456789", // optional — marketplace team member phone
 });
 
 // redirect the user here
@@ -74,6 +75,8 @@ const link = await client.pay({
 </div>
 
 در مبلغ، واحد پول **تومان** است. در صورت نیاز می‌توانید برای لینک پرداخت عنوان سفارش، چهار رقم آخر کارت مقصد و مدت اعتبار لینک را نیز مشخص کنید. پس از ایجاد لینک، کافی است کاربر را به `payUrl` هدایت کنید.
+
+> 🏪 **مارکت‌پلیس** — اگر از پلن مارکت‌پلیس استفاده می‌کنید، مالک می‌تواند با ارسال `memberPhone` (شماره `09xxxxxxxxx` عضو) لینک را به نام آن عضو ایجاد کند. کارت مقصد و محدودیت‌ها مربوط به عضو سنجیده می‌شود ولی اعتبار از مالک کسر و وب‌هوک به آدرس مالک ارسال می‌گردد.
 
 ### مدت اعتبار لینک پرداخت
 
@@ -114,6 +117,8 @@ const event = VarizaPaymentEvent.fromJson(rawBody);
 
 if (event.isPaymentPaid()) {
   // mark the order paid using event.attemptCode (idempotent)
+  // if payment was for a team member, event.memberPhone contains their phone (otherwise null)
+  const memberPhone = event.memberPhone; // '09123456789' | null
 }
 
 return 200;
@@ -234,6 +239,7 @@ const link = await client.pay({
   title: "Order #123", // optional
   cardLast4: "1234", // optional — pick a specific card
   expiresIn: Expiry.OneHour, // optional — link validity period
+  memberPhone: "09123456789", // optional — marketplace team member phone
 });
 
 // redirect the user here
@@ -241,6 +247,8 @@ const link = await client.pay({
 ```
 
 The amount is in **Toman**. You can optionally set an order title, the last four digits of the destination card, and the link validity period. Once created, redirect the customer to `payUrl`.
+
+> 🏪 **Marketplace** — If you use a marketplace team plan, the owner can pass `memberPhone` (`09xxxxxxxxx` of a member) to create the link on behalf of that member. Destination card and limits are checked against the member, but credit is deducted from the owner and webhook is delivered to owner's `callback_url`.
 
 ### Payment link expiry
 
@@ -273,6 +281,8 @@ const event = VarizaPaymentEvent.fromJson(rawBody);
 
 if (event.isPaymentPaid()) {
   // mark the order paid using event.attemptCode (idempotent)
+  // if payment was for a team member, event.memberPhone contains their phone (otherwise null)
+  const memberPhone = event.memberPhone; // '09123456789' | null
 }
 
 return 200;

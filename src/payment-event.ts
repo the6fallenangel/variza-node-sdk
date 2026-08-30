@@ -12,6 +12,7 @@ export class VarizaPaymentEvent {
     readonly amount: number;
     readonly status: string;
     readonly sentAt: string;
+    readonly memberPhone: string | null;
 
     private constructor(data: {
         event: string;
@@ -20,6 +21,7 @@ export class VarizaPaymentEvent {
         amount: number;
         status: string;
         sentAt: string;
+        memberPhone: string | null;
     }) {
         this.event = data.event;
         this.slug = data.slug;
@@ -27,6 +29,7 @@ export class VarizaPaymentEvent {
         this.amount = data.amount;
         this.status = data.status;
         this.sentAt = data.sentAt;
+        this.memberPhone = data.memberPhone;
     }
 
     static fromJson(json: string): VarizaPaymentEvent {
@@ -39,6 +42,7 @@ export class VarizaPaymentEvent {
             amount: Number(data.amount ?? 0),
             status: String(data.status ?? ''),
             sentAt: String(data.sent_at ?? ''),
+            memberPhone: typeof data.member_phone === 'string' ? (data.member_phone as string) : null,
         });
     }
 

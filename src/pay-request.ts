@@ -11,6 +11,8 @@ export interface PayRequest {
     cardLast4?: string;
     /** The payment link validity period. */
     expiresIn?: ExpiryValue;
+    /** Team member phone (09xxxxxxxxx) — owner creates link on behalf of member for marketplace plans. */
+    memberPhone?: string;
 }
 
 /**
@@ -33,6 +35,10 @@ export function toRequestBody(request: PayRequest): Record<string, unknown> {
 
     if (request.expiresIn !== undefined) {
         body.expires_in = request.expiresIn;
+    }
+
+    if (request.memberPhone !== undefined) {
+        body.member_phone = request.memberPhone;
     }
 
     return body;
