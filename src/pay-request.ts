@@ -1,5 +1,7 @@
 import type { ExpiryValue } from './expiry.js';
 
+export const RANDOM_CARD = 'random' as const;
+
 export interface PayRequest {
     /** The amount in Toman (minimum 1000). */
     amount: number;
@@ -7,7 +9,11 @@ export interface PayRequest {
     returnUrl: string;
     /** An order title, shown on the payment page. */
     title?: string;
-    /** The last four digits of the destination card to receive the transfer. */
+    /**
+     * The last four digits of the destination card (e.g. "1234") or
+     * {@link RANDOM_CARD} ("random") for automatic least-load selection.
+     * Requires a plan with the RandomLeastLoad feature and at least 2 active cards.
+     */
     cardLast4?: string;
     /** The payment link validity period. */
     expiresIn?: ExpiryValue;

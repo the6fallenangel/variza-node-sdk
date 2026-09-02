@@ -68,6 +68,14 @@ const link = await client.pay({
   memberPhone: "09123456789", // optional — marketplace team member phone
 });
 
+// کارت تصادفی — توزیع خودکار بار
+import { RANDOM_CARD } from "@the6fallenangel/variza-node-sdk";
+const randomLink = await client.pay({
+  amount: 50000,
+  returnUrl: "https://shop.example/return",
+  cardLast4: RANDOM_CARD, // or "random" — pick least-load active card
+});
+
 // redirect the user here
 // link.payUrl
 ```
@@ -75,6 +83,8 @@ const link = await client.pay({
 </div>
 
 در مبلغ، واحد پول **تومان** است. در صورت نیاز می‌توانید برای لینک پرداخت عنوان سفارش، چهار رقم آخر کارت مقصد و مدت اعتبار لینک را نیز مشخص کنید. پس از ایجاد لینک، کافی است کاربر را به `payUrl` هدایت کنید.
+
+> 🔀 **توزیع هوشمند بار (کارت تصادفی)** — با ارسال `cardLast4: RANDOM_CARD` یا `"random"`، سیستم در لحظه‌ی پرداخت از بین کارت‌های فعال شما، کارتی با کمترین تعداد تراکنش موفق امروز را انتخاب می‌کند (در صورت تساوی، تصادفی). نیازمند اشتراک دارای قابلیت «کارت تصادفی» و حداقل ۲ کارت فعال؛ در غیر این صورت API خطای ۴۲۲ برمی‌گرداند.
 
 > 🏪 **مارکت‌پلیس** — اگر از پلن مارکت‌پلیس استفاده می‌کنید، مالک می‌تواند با ارسال `memberPhone` (شماره `09xxxxxxxxx` عضو) لینک را به نام آن عضو ایجاد کند. کارت مقصد و محدودیت‌ها مربوط به عضو سنجیده می‌شود ولی اعتبار از مالک کسر و وب‌هوک به آدرس مالک ارسال می‌گردد.
 
@@ -242,11 +252,21 @@ const link = await client.pay({
   memberPhone: "09123456789", // optional — marketplace team member phone
 });
 
+// random least-load card — automatic distribution
+import { RANDOM_CARD } from "@the6fallenangel/variza-node-sdk";
+const randomLink = await client.pay({
+  amount: 50000,
+  returnUrl: "https://shop.example/return",
+  cardLast4: RANDOM_CARD, // or "random" — pick active card with least successful transactions today
+});
+
 // redirect the user here
 // link.payUrl
 ```
 
 The amount is in **Toman**. You can optionally set an order title, the last four digits of the destination card, and the link validity period. Once created, redirect the customer to `payUrl`.
+
+> 🔀 **Smart load distribution (random card)** — Pass `cardLast4: RANDOM_CARD` or `"random"` to let Variza auto-pick the active card with the fewest successful transactions today (random tie-break). Requires a plan with the Random Card feature and at least 2 active cards; otherwise the API returns 422.
 
 > 🏪 **Marketplace** — If you use a marketplace team plan, the owner can pass `memberPhone` (`09xxxxxxxxx` of a member) to create the link on behalf of that member. Destination card and limits are checked against the member, but credit is deducted from the owner and webhook is delivered to owner's `callback_url`.
 
