@@ -1,6 +1,7 @@
 import type { ExpiryValue } from './expiry.js';
 
 export const RANDOM_CARD = 'random' as const;
+export const VARIZA_CARDS = 'variza' as const;
 
 export interface PayRequest {
     /** The amount in Toman (minimum 1000). */
@@ -10,9 +11,13 @@ export interface PayRequest {
     /** An order title, shown on the payment page. */
     title?: string;
     /**
-     * The last four digits of the destination card (e.g. "1234") or
-     * {@link RANDOM_CARD} ("random") for automatic least-load selection.
-     * Requires a plan with the RandomLeastLoad feature and at least 2 active cards.
+     * The last four digits of the destination card (e.g. "1234"),
+     * {@link RANDOM_CARD} ("random") for automatic least-load selection
+     * (requires RandomLeastLoad plan feature and at least 2 active cards),
+     * or {@link VARIZA_CARDS} ("variza") to receive buyer payments on
+     * Variza cards with Toman wallet settlement and USDT withdrawal
+     * (requires CustodialSettlement plan feature, no seller bank account
+     * needed, max 2,000,000 Toman per link).
      */
     cardLast4?: string;
     /** The payment link validity period. */

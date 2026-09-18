@@ -4,7 +4,7 @@ export { Expiry } from './expiry.js';
 export type { ExpiryValue } from './expiry.js';
 export { NodeTransport } from './http.js';
 export type { Transport, TransportRequest, TransportResponse } from './http.js';
-export { RANDOM_CARD, toRequestBody } from './pay-request.js';
+export { RANDOM_CARD, VARIZA_CARDS, toRequestBody } from './pay-request.js';
 export type { PayRequest } from './pay-request.js';
 export { payLinkFromResponse } from './pay-link.js';
 export type { PayLink } from './pay-link.js';

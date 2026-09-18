@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { Expiry, toRequestBody } from '../src/index.js';
+import { Expiry, VARIZA_CARDS, toRequestBody } from '../src/index.js';
 
 test('toRequestBody includes required fields', () => {
     assert.deepEqual(toRequestBody({ amount: 50000, returnUrl: 'https://shop.example/return' }), {
@@ -25,6 +25,14 @@ test('toRequestBody includes optional fields when set', () => {
             card_last_4: '1234',
             expires_in: '1h',
         },
+    );
+});
+
+test('toRequestBody supports variza cards settlement', () => {
+    assert.equal(VARIZA_CARDS, 'variza');
+    assert.deepEqual(
+        toRequestBody({ amount: 50000, returnUrl: 'https://shop.example/return', cardLast4: VARIZA_CARDS }),
+        { amount: 50000, return_url: 'https://shop.example/return', card_last_4: 'variza' },
     );
 });
 

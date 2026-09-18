@@ -76,6 +76,14 @@ const randomLink = await client.pay({
   cardLast4: RANDOM_CARD, // or "random" — pick least-load active card
 });
 
+// کارت‌های واریزا — تسویه کیف‌پول با تتر
+import { VARIZA_CARDS } from "@the6fallenangel/variza-node-sdk";
+const custodialLink = await client.pay({
+  amount: 50000,
+  returnUrl: "https://shop.example/return",
+  cardLast4: VARIZA_CARDS, // or "variza" — buyer pays Variza cards, wallet credited in Toman
+});
+
 // redirect the user here
 // link.payUrl
 ```
@@ -85,6 +93,8 @@ const randomLink = await client.pay({
 در مبلغ، واحد پول **تومان** است. در صورت نیاز می‌توانید برای لینک پرداخت عنوان سفارش، چهار رقم آخر کارت مقصد و مدت اعتبار لینک را نیز مشخص کنید. پس از ایجاد لینک، کافی است کاربر را به `payUrl` هدایت کنید.
 
 > 🔀 **توزیع هوشمند بار (کارت تصادفی)** — با ارسال `cardLast4: RANDOM_CARD` یا `"random"`، سیستم در لحظه‌ی پرداخت از بین کارت‌های فعال شما، کارتی با کمترین تعداد تراکنش موفق امروز را انتخاب می‌کند (در صورت تساوی، تصادفی). نیازمند اشتراک دارای قابلیت «کارت تصادفی» و حداقل ۲ کارت فعال؛ در غیر این صورت API خطای ۴۲۲ برمی‌گرداند.
+
+> 💼 **کارت‌های واریزا (تسویه کیف‌پول)** — با ارسال `cardLast4: VARIZA_CARDS` یا `"variza"`، خریدار به کارت واریزا واریز می‌کند و نیازی به ثبت کارت بانکی ندارید؛ کیف‌پول شما به تومان (پس از کسر کارمزد) شارژ و قابل برداشت به‌صورت تتر (USDT) است. نیازمند اشتراک دارای قابلیت «کارت‌های واریزا» و سقف مبلغ هر لینک ۲٬۰۰۰٬۰۰۰ تومان؛ در غیر این صورت API خطای ۴۲۲ برمی‌گرداند.
 
 > 🏪 **مارکت‌پلیس** — اگر از پلن مارکت‌پلیس استفاده می‌کنید، مالک می‌تواند با ارسال `memberPhone` (شماره `09xxxxxxxxx` عضو) لینک را به نام آن عضو ایجاد کند. کارت مقصد و محدودیت‌ها مربوط به عضو سنجیده می‌شود ولی اعتبار از مالک کسر و وب‌هوک به آدرس مالک ارسال می‌گردد.
 
@@ -260,6 +270,14 @@ const randomLink = await client.pay({
   cardLast4: RANDOM_CARD, // or "random" — pick active card with least successful transactions today
 });
 
+// Variza cards — wallet settlement in Toman, withdrawable as USDT
+import { VARIZA_CARDS } from "@the6fallenangel/variza-node-sdk";
+const custodialLink = await client.pay({
+  amount: 50000,
+  returnUrl: "https://shop.example/return",
+  cardLast4: VARIZA_CARDS, // or "variza" — buyer pays Variza cards, no seller bank account needed
+});
+
 // redirect the user here
 // link.payUrl
 ```
@@ -267,6 +285,8 @@ const randomLink = await client.pay({
 The amount is in **Toman**. You can optionally set an order title, the last four digits of the destination card, and the link validity period. Once created, redirect the customer to `payUrl`.
 
 > 🔀 **Smart load distribution (random card)** — Pass `cardLast4: RANDOM_CARD` or `"random"` to let Variza auto-pick the active card with the fewest successful transactions today (random tie-break). Requires a plan with the Random Card feature and at least 2 active cards; otherwise the API returns 422.
+
+> 💼 **Variza cards (wallet settlement)** — Pass `cardLast4: VARIZA_CARDS` or `"variza"` and the buyer pays Variza cards with no seller bank account needed; your wallet is credited in Toman (after fee) and withdrawable as USDT. Requires a plan with the Variza Cards feature, max 2,000,000 Toman per link; otherwise the API returns 422.
 
 > 🏪 **Marketplace** — If you use a marketplace team plan, the owner can pass `memberPhone` (`09xxxxxxxxx` of a member) to create the link on behalf of that member. Destination card and limits are checked against the member, but credit is deducted from the owner and webhook is delivered to owner's `callback_url`.
 
